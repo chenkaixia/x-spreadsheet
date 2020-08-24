@@ -348,6 +348,36 @@ class Draw {
     ctx.restore();
   }
 
+  dropsort(box, order) {
+    const { ctx } = this;
+    const upColor = order === 'acs' ? 'rgba(0, 0, 0, 1)' : 'rgba(0, 0, 0, .45)';
+    const downColor = order === 'decs' ? 'rgba(0, 0, 0, 1)' : 'rgba(0, 0, 0, .45)';
+    const {
+      x, y, width, height,
+    } = box;
+    const sx = x + width - 15;
+    const sy = y + height - 12;
+    ctx.save();
+
+    // 绘制上三角形
+    ctx.beginPath();
+    ctx.moveTo(npx(sx), npx(sy - 2));
+    ctx.lineTo(npx(sx + 8), npx(sy - 2));
+    ctx.lineTo(npx(sx + 4), npx(sy - 2 - 6));
+    ctx.fillStyle = upColor;
+    ctx.fill();
+    ctx.closePath();
+    // 绘制下三角形
+    ctx.beginPath();
+    ctx.fillStyle = ctx.moveTo(npx(sx), npx(sy));
+    ctx.lineTo(npx(sx + 8), npx(sy));
+    ctx.lineTo(npx(sx + 4), npx(sy + 6));
+    ctx.fillStyle = downColor;
+    ctx.fill();
+    ctx.closePath();
+    ctx.restore();
+  }
+
   error(box) {
     const { ctx } = this;
     const { x, y, width } = box;

@@ -125,7 +125,7 @@ function renderAutoSort(viewRange) {
       if (viewRange.includes(src)) {
         const [x, y] = expr2xy(src);
         const dbox = getDrawBox(data, y, x);
-        draw.dropdown(dbox);
+        draw.dropsort(dbox);
       }
     });
   }
