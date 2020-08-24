@@ -1,4 +1,4 @@
-import { stringAt } from '../core/alphabet';
+import { stringAt, expr2xy } from '../core/alphabet';
 import { getFontSizePxByPt } from '../core/font';
 import _cell from '../core/cell';
 import { formulam } from '../core/formula';
@@ -117,6 +117,19 @@ function renderAutofilter(viewRange) {
   }
 }
 
+function renderAutoSort(viewRange) {
+  const { data, draw } = this;
+  if (viewRange) {
+    const { autoSort: { list } } = data;
+    list.forEach((src) => {
+      if (viewRange.includes(src)) {
+        const [x, y] = expr2xy(src);
+        const dbox = getDrawBox(data, y, x);
+        draw.dropdown(dbox);
+      }
+    });
+  }
+}
 function renderContent(viewRange, fw, fh, tx, ty) {
   const { draw, data } = this;
   draw.save();
@@ -161,6 +174,9 @@ function renderContent(viewRange, fw, fh, tx, ty) {
 
   // 3 render autofilter
   renderAutofilter.call(this, viewRange);
+
+  // 4 render sort
+  renderAutoSort.call(this, viewRange);
 
   draw.restore();
 }

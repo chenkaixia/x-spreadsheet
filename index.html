@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title><%= htmlWebpackPlugin.options.title %></title>
-    
+
 </head>
+
 <body onload="load()">
   <div style="position: fixed; right: 0; top: .3em;">
-  <iframe src="https://ghbtns.com/github-btn.html?user=myliang&repo=x-spreadsheet&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
+    <iframe src="https://ghbtns.com/github-btn.html?user=myliang&repo=x-spreadsheet&type=star&count=true&size=large"
+      frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
   </div>
   <div id="x-spreadsheet-demo"></div>
   <script>
-    function load(){
+    function load() {
       const rows10 = { len: 1000 };
       for (let i = 0; i < 1000; i += 1) {
         rows10[i] = {
@@ -48,9 +51,8 @@
         }
       };
       // x_spreadsheet.locale('zh-cn');
-      var xs = x_spreadsheet('#x-spreadsheet-demo', {showToolbar: true, showGrid: true})
+      var xs = x_spreadsheet('#x-spreadsheet-demo', { showToolbar: true, showGrid: true })
         .loadData([{
-          freeze: 'B3',
           styles: [
             {
               bgcolor: '#f4f5f8',
@@ -67,6 +69,19 @@
           merges: [
             'C3:D4',
           ],
+          //autofilter: {
+          //  filters: [],
+          //  ref: "B1:E7",
+          //  sort: null
+          //},
+          autosort: {
+            ref: null,
+            order: null,
+            list: [
+              'B1',
+              'D1',
+            ]
+          },
           cols: {
             len: 10,
             2: { width: 200 },
@@ -78,10 +93,10 @@
         });
 
       xs.on('cell-selected', (cell, ri, ci) => {
-          console.log('cell:', cell, ', ri:', ri, ', ci:', ci);
-        }).on('cell-edited', (text, ri, ci) => {
-          console.log('text:', text, ', ri: ', ri, ', ci:', ci);
-        });
+        console.log('cell:', cell, ', ri:', ri, ', ci:', ci);
+      }).on('cell-edited', (text, ri, ci) => {
+        console.log('text:', text, ', ri: ', ri, ', ci:', ci);
+      });
 
       setTimeout(() => {
         // xs.loadData([{ rows }]);
@@ -93,4 +108,5 @@
   </script>
   <!--script type="text/javascript" src="https://unpkg.com/x-data-spreadsheet@1.0.20/dist/locale/zh-cn.js"></script-->
 </body>
+
 </html>
