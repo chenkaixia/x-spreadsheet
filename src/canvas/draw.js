@@ -350,8 +350,8 @@ class Draw {
 
   dropsort(box, order) {
     const { ctx } = this;
-    const upColor = order === 'acs' ? 'rgba(0, 0, 0, 1)' : 'rgba(0, 0, 0, .45)';
-    const downColor = order === 'decs' ? 'rgba(0, 0, 0, 1)' : 'rgba(0, 0, 0, .45)';
+    const downColor = order === 'asc' ? 'rgba(0, 0, 0, 1)' : 'rgba(0, 0, 0, .25)';
+    const upColor = order === 'desc' ? 'rgba(0, 0, 0, 1)' : 'rgba(0, 0, 0, .25)';
     const {
       x, y, width, height,
     } = box;

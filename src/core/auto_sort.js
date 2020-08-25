@@ -13,6 +13,20 @@ export default class AutoSort {
     this.list = list;
   }
 
+  getData() {
+    const { ref, order, list } = this;
+    return {
+      order,
+      ref,
+      list,
+    };
+  }
+
+  isActived({ ri, ci }) {
+    const ref = xy2expr(ci, ri);
+    return this.ref === ref;
+  }
+
   includes(ri, ci) {
     const { list = [] } = this;
     const ref = xy2expr(ci, ri);

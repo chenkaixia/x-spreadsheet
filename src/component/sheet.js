@@ -178,15 +178,21 @@ function sortMousemove(evt) {
     left, top, width, height,
   } = cellRect;
   const { ri, ci } = cellRect;
-
+  const { autoSort } = data;
+  const isActived = autoSort.isActived({ ri, ci });
+  const { order } = autoSort;
   if (evt.buttons !== 0) return;
   if (evt.target.className === `${cssPrefix}-resizer-hover`) return;
 
-  const { autoSort } = data;
+
   if (autoSort.includes(ri, ci)) {
     sortTip.hide();
-    sortTip.setOffset({ left: left + parseInt(width / 2, 10) - 26, top: top - height });
-    sortTip.show();
+    sortTip.set({
+      isActived,
+      order,
+    });
+    sortTip.setOffset({ left: left + parseInt(width / 2, 10) - 40, top: top - height });
+
     return;
   }
   sortTip.hide();
