@@ -11,7 +11,9 @@ import Table from './table';
 import Toolbar from './toolbar/index';
 import ModalValidation from './modal_validation';
 import SortFilter from './sort_filter';
+import SortTip from './sort';
 import { xtoast } from './message';
+
 import { cssPrefix } from '../config';
 import { formulas } from '../core/formula';
 
@@ -165,7 +167,30 @@ function overlayerMousemove(evt) {
     colResizer.hide();
   }
 }
+function sortMousemove(evt) {
+  const {
+    data,
+    sortTip,
+  } = this;
+  const { offsetX, offsetY } = evt;
+  const cellRect = data.getCellRectByXY(offsetX, offsetY);
+  const {
+    left, top, width, height,
+  } = cellRect;
+  const { ri, ci } = cellRect;
 
+  if (evt.buttons !== 0) return;
+  if (evt.target.className === `${cssPrefix}-resizer-hover`) return;
+
+  const { autoSort } = data;
+  if (autoSort.includes(ri, ci)) {
+    sortTip.hide();
+    sortTip.setOffset({ left: left + parseInt(width / 2, 10) - 26, top: top - height });
+    sortTip.show();
+    return;
+  }
+  sortTip.hide();
+}
 function overlayerMousescroll(evt) {
   const { verticalScrollbar, horizontalScrollbar, data } = this;
   const { top } = verticalScrollbar.scroll();
@@ -356,7 +381,10 @@ function overlayerMousedown(evt) {
   // console.log(':::::overlayer.mousedown:', evt.detail, evt.button, evt.buttons, evt.shiftKey);
   // console.log('evt.target.className:', evt.target.className);
   const {
-    selector, data, table, sortFilter,
+    selector,
+    data,
+    table,
+    sortFilter,
   } = this;
   const { offsetX, offsetY } = evt;
   const isAutofillEl = evt.target.className === `${cssPrefix}-selector-corner`;
@@ -576,6 +604,7 @@ function sheetInitEvents() {
   overlayerEl
     .on('mousemove', (evt) => {
       overlayerMousemove.call(this, evt);
+      sortMousemove.call(this, evt);
     })
     .on('mousedown', (evt) => {
       editor.clear();
@@ -878,6 +907,8 @@ export default class Sheet {
       .child(this.overlayerCEl);
     // sortFilter
     this.sortFilter = new SortFilter();
+    // sortTip
+    this.sortTip = new SortTip();
     // root element
     this.el.children(
       this.tableEl,
@@ -889,6 +920,7 @@ export default class Sheet {
       this.contextMenu.el,
       this.modalValidation.el,
       this.sortFilter.el,
+      this.sortTip.el,
     );
     // table
     this.table = new Table(this.tableEl.el, data);
