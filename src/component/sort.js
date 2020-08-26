@@ -1,11 +1,6 @@
 import { h } from './element';
 import { cssPrefix } from '../config';
 
-const tipTexts = [
-  '点击升序',
-  '点击降序',
-  '取消排序',
-];
 const textMaping = {
   cancel: '点击升序',
   asc: '点击降序',
@@ -21,9 +16,10 @@ export default class SortFilter {
     isActived,
     order = 'cancel',
   }) {
+    const myorder = order || 'cancel';
     if (isActived) {
       this.el.html(
-        textMaping[order],
+        textMaping[myorder],
       );
       return;
     }

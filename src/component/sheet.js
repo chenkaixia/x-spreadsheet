@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* global window */
 import { h } from './element';
 import { bind, mouseMoveUp, bindTouch } from './event';
@@ -382,7 +383,6 @@ function toolbarChangePaintformatPaste() {
     toolbar.paintformatToggle();
   }
 }
-
 function overlayerMousedown(evt) {
   // console.log(':::::overlayer.mousedown:', evt.detail, evt.button, evt.buttons, evt.shiftKey);
   // console.log('evt.target.className:', evt.target.className);
@@ -391,6 +391,7 @@ function overlayerMousedown(evt) {
     data,
     table,
     sortFilter,
+    sortTip,
   } = this;
   const { offsetX, offsetY } = evt;
   const isAutofillEl = evt.target.className === `${cssPrefix}-selector-corner`;
@@ -399,6 +400,20 @@ function overlayerMousedown(evt) {
     left, top, width, height,
   } = cellRect;
   let { ri, ci } = cellRect;
+  // sort
+  const { autoSort } = data;
+  const { order } = autoSort;
+  if (autoSort.includes(ri, ci)) {
+    autoSort.setSort({
+      ri,
+      ci,
+      order: autoSort.next(order),
+    });
+    sortTip.set({
+      isActived: true,
+      order: autoSort.next(order),
+    });
+  }
   // sort or filter
   const { autoFilter } = data;
   if (autoFilter.includes(ri, ci)) {
@@ -410,6 +425,7 @@ function overlayerMousedown(evt) {
       return;
     }
   }
+
 
   // console.log('ri:', ri, ', ci:', ci);
   if (!evt.shiftKey) {

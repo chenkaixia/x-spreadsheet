@@ -120,7 +120,7 @@ function renderAutofilter(viewRange) {
 function renderAutoSort(viewRange) {
   const { data, draw } = this;
   if (viewRange) {
-    const { autoSort: { list, ref, order } } = data;
+    const { autoSort: { list = [], ref, order } } = data;
     list.forEach((src) => {
       if (viewRange.includes(src)) {
         const [x, y] = expr2xy(src);

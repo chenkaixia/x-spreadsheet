@@ -51,46 +51,51 @@
         }
       };
       // x_spreadsheet.locale('zh-cn');
-      var xs = x_spreadsheet('#x-spreadsheet-demo', { showToolbar: true, showGrid: true })
-        .loadData([{
-          styles: [
-            {
-              bgcolor: '#f4f5f8',
-              textwrap: true,
-              color: '#900b09',
-              border: {
-                top: ['thin', '#0366d6'],
-                bottom: ['thin', '#0366d6'],
-                right: ['thin', '#0366d6'],
-                left: ['thin', '#0366d6'],
-              },
+      var xs = x_spreadsheet('#x-spreadsheet-demo', { showToolbar: true, showGrid: true });
+      var data = [{
+        styles: [
+          {
+            bgcolor: '#f4f5f8',
+            textwrap: true,
+            color: '#900b09',
+            border: {
+              top: ['thin', '#0366d6'],
+              bottom: ['thin', '#0366d6'],
+              right: ['thin', '#0366d6'],
+              left: ['thin', '#0366d6'],
             },
-          ],
-          merges: [
-            'C3:D4',
-          ],
-          //autofilter: {
-          //  filters: [],
-          //  ref: "B1:E7",
-          //  sort: null
-          //},
-          autosort: {
-            ref: 'B1',
-            order: 'desc',
-            list: [
-              'B1',
-              'D1',
-            ]
           },
-          cols: {
-            len: 10,
-            2: { width: 200 },
-          },
-          rows,
-        }, { name: 'sheet-test', rows: rows10 }]).change((cdata) => {
-          // console.log(cdata);
-          console.log('>>>', xs.getData());
-        });
+        ],
+        merges: [
+          'C3:D4',
+        ],
+        autosort: {
+          ref: 'B1',
+          order: 'desc',
+          list: [
+            'B1',
+            'D1',
+          ],
+          callback: (params) => {
+            const { order, ref } = params;
+            data[0].autosort.order = order;
+            data[0].autosort.ref = ref;
+            xs.loadData(data);
+            console.log(params);
+          }
+        },
+        cols: {
+          len: 10,
+          2: { width: 200 },
+        },
+        rows,
+      }, { name: 'sheet-test', rows: rows10 }];
+
+      xs.loadData(data);
+      xs.change((cdata) => {
+        // console.log(cdata);
+        console.log('>>>', xs.getData());
+      });
 
       xs.on('cell-selected', (cell, ri, ci) => {
         console.log('cell:', cell, ', ri:', ri, ', ci:', ci);
