@@ -67,6 +67,11 @@ export default class AutoSort {
     return this.ref === ref;
   }
 
+  equal(ri, ci, pref) {
+    const ref = xy2expr(ci, ri);
+    return ref === pref;
+  }
+
   includes(ri, ci) {
     const { list = [] } = this;
     const ref = xy2expr(ci, ri);

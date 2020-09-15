@@ -402,16 +402,16 @@ function overlayerMousedown(evt) {
   let { ri, ci } = cellRect;
   // sort
   const { autoSort } = data;
-  const { order } = autoSort;
+  const { order, ref } = autoSort;
   if (autoSort.includes(ri, ci)) {
     autoSort.setSort({
       ri,
       ci,
-      order: autoSort.next(order),
+      order: autoSort.equal(ri, ci, ref) ? autoSort.next(order) : 'asc',
     });
     sortTip.set({
       isActived: true,
-      order: autoSort.next(order),
+      order: autoSort.equal(ri, ci, ref) ? autoSort.next(order) : 'asc',
     });
   }
   // sort or filter
