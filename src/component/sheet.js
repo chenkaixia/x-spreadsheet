@@ -187,14 +187,16 @@ function sortMousemove(evt) {
 
 
   if (autoSort.includes(ri, ci)) {
+    if (left + width - 30 < offsetX && top + height - 30 < offsetY) {
+      sortTip.hide();
+      sortTip.set({
+        isActived,
+        order,
+      });
+      sortTip.setOffset({ left: left + parseInt(width, 10) - 45, top: top - height - 1 });
+      return;
+    }
     sortTip.hide();
-    sortTip.set({
-      isActived,
-      order,
-    });
-    sortTip.setOffset({ left: left + parseInt(width / 2, 10) - 40, top: top - height });
-
-    return;
   }
   sortTip.hide();
 }
@@ -407,15 +409,18 @@ function overlayerMousedown(evt) {
   const { autoSort } = data;
   const { order, ref } = autoSort;
   if (autoSort.includes(ri, ci)) {
-    autoSort.setSort({
-      ri,
-      ci,
-      order: autoSort.equal(ri, ci, ref) ? autoSort.next(order) : 'asc',
-    });
-    sortTip.set({
-      isActived: true,
-      order: autoSort.equal(ri, ci, ref) ? autoSort.next(order) : 'asc',
-    });
+    if (left + width - 30 < offsetX && top + height - 30 < offsetY) {
+      autoSort.setSort({
+        ri,
+        ci,
+        order: autoSort.equal(ri, ci, ref) ? autoSort.next(order) : 'asc',
+      });
+      sortTip.set({
+        isActived: true,
+        order: autoSort.equal(ri, ci, ref) ? autoSort.next(order) : 'asc',
+      });
+      return;
+    }
   }
   // sort or filter
   const { autoFilter } = data;
