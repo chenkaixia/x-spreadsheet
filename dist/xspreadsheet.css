@@ -260,7 +260,7 @@ body {
 .x-spreadsheet-selector .hide-input input {
   padding: 0;
   width: 0;
-  border: none !important;
+  border: none!important;
 }
 .x-spreadsheet-selector .x-spreadsheet-selector-area {
   position: absolute;
