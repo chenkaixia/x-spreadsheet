@@ -128,7 +128,7 @@ function selectorMove(multiple, direction) {
 function overlayerMousemove(evt) {
   // console.log('x:', evt.offsetX, ', y:', evt.offsetY);
   if (evt.buttons !== 0) return;
-  if (evt.target.className === `${ cssPrefix }-resizer-hover`) return;
+  if (evt.target.className === `${cssPrefix}-resizer-hover`) return;
   const { offsetX, offsetY } = evt;
   const {
     rowResizer, colResizer, tableEl, data,
@@ -183,7 +183,7 @@ function sortMousemove(evt) {
   const isActived = autoSort.isActived({ ri, ci });
   const { order } = autoSort;
   if (evt.buttons !== 0) return;
-  if (evt.target.className === `${ cssPrefix }-resizer-hover`) return;
+  if (evt.target.className === `${cssPrefix}-resizer-hover`) return;
 
 
   if (autoSort.includes(ri, ci)) {
@@ -200,11 +200,11 @@ function sortMousemove(evt) {
   }
   sortTip.hide();
 }
-let scrollThreshold = 15;
+let scrollThreshold = 5;
 function overlayerMousescroll(evt) {
   scrollThreshold -= 1;
   if (scrollThreshold > 0) return;
-  scrollThreshold = 15;
+  scrollThreshold = 5;
 
   const { verticalScrollbar, horizontalScrollbar, data } = this;
   const { top } = verticalScrollbar.scroll();
@@ -265,9 +265,6 @@ function overlayerMousescroll(evt) {
   const tempY = Math.abs(deltaY);
   const tempX = Math.abs(deltaX);
   const temp = Math.max(tempY, tempX);
-  if (temp === 0) {
-    return false;
-  }
   // console.log('event:', evt);
   // detail for windows/mac firefox vertical scroll
   if (/Firefox/i.test(window.navigator.userAgent)) throttle(moveY(evt.detail), 50);
@@ -331,7 +328,7 @@ function sheetReset() {
   tableEl.attr(vRect);
   overlayerEl.offset(vRect);
   overlayerCEl.offset(tOffset);
-  el.css('width', `${ vRect.width }px`);
+  el.css('width', `${vRect.width}px`);
   verticalScrollbarSet.call(this);
   horizontalScrollbarSet.call(this);
   sheetFreeze.call(this);
@@ -405,7 +402,7 @@ function overlayerMousedown(evt) {
     sortTip,
   } = this;
   const { offsetX, offsetY } = evt;
-  const isAutofillEl = evt.target.className === `${ cssPrefix }-selector-corner`;
+  const isAutofillEl = evt.target.className === `${cssPrefix}-selector-corner`;
   const cellRect = data.getCellRectByXY(offsetX, offsetY);
   const {
     left, top, width, height,
@@ -910,13 +907,13 @@ export default class Sheet {
   constructor(targetEl, data) {
     this.eventMap = new Map();
     const { view, showToolbar, showContextmenu } = data.settings;
-    this.el = h('div', `${ cssPrefix }-sheet`);
+    this.el = h('div', `${cssPrefix}-sheet`);
     this.toolbar = new Toolbar(data, view.width, !showToolbar);
     this.print = new Print(data);
     targetEl.children(this.toolbar.el, this.el, this.print.el);
     this.data = data;
     // table
-    this.tableEl = h('canvas', `${ cssPrefix }-table`);
+    this.tableEl = h('canvas', `${cssPrefix}-table`);
     // resizer
     this.rowResizer = new Resizer(false, data.rows.height);
     this.colResizer = new Resizer(true, data.cols.minWidth);
@@ -935,12 +932,12 @@ export default class Sheet {
     this.contextMenu = new ContextMenu(() => this.getRect(), !showContextmenu);
     // selector
     this.selector = new Selector(data);
-    this.overlayerCEl = h('div', `${ cssPrefix }-overlayer-content`)
+    this.overlayerCEl = h('div', `${cssPrefix}-overlayer-content`)
       .children(
         this.editor.el,
         this.selector.el,
       );
-    this.overlayerEl = h('div', `${ cssPrefix }-overlayer`)
+    this.overlayerEl = h('div', `${cssPrefix}-overlayer`)
       .child(this.overlayerCEl);
     // sortFilter
     this.sortFilter = new SortFilter();
